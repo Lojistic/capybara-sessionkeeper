@@ -22,7 +22,7 @@ module Capybara
 
     def restore_cookies_from_data(data, options = {})
       raise CookieError, "visit must be performed to restore cookies" if ['data:,', 'about:blank'].include?(current_url)
-      cookies = %w[yml yaml].include?(options[:format]) ? YAML.load(data) : Marshal.load(data)
+      cookies = %w[yml yaml].include?(options[:format]) ? YAML.load(data, permitted_classes: [DateTime, Symbol, Time]) : Marshal.load(data)
       cookies.each do |d|
         begin
           driver.browser.manage.delete_cookie d[:name]

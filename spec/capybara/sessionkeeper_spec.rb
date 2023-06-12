@@ -87,7 +87,7 @@ RSpec.describe Capybara::Sessionkeeper do
     it "outputs string of yaml format" do
       session.visit 'https://github.com/'
       yaml_str = session.cookies_to_yaml
-      data = YAML.load(yaml_str)
+      data = YAML.load(yaml_str, permitted_classes: [DateTime, Symbol, Time])
       expect(data.map{|d| d[:domain] }).to include('github.com')
     end
   end
